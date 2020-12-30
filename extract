@@ -27,4 +27,4 @@ rm -rf blob.*
 echo you should find your data now under /data/noarch/data.
 echo
 echo enjoy
-.
+
