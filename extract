@@ -1,0 +1,30 @@
+#!/bin/env bash
+#
+# 'cat readme.md'
+# > cd hog/sam_and_max
+# > $HOG_WARTS/extract
+#
+
+# Change me for different initial script sizes (check 'offset' var)
+INITIAL_SCRIPT_LINE_COUNT=520
+
+echo separating payload from install script
+tail -n+${INITIAL_SCRIPT_LINE_COUNT} *.sh > blob.complete
+
+echo getting the size of the installer in the payload
+SIZE=$(grep --text 'filesizes="[0-9]\+"' *.sh | grep -o '[0-9]\+')
+((SIZE++))
+
+echo separating zipped game from payload
+tail -c+$SIZE blob.complete > blob.second
+
+echo unziping game
+unzip blob.second
+
+echo removing temp blobs
+rm -rf blob.*
+
+echo you should find your data now under /data/noarch/data.
+echo
+echo enjoy
+.
